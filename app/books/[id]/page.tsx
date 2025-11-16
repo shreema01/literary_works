@@ -8,7 +8,6 @@ import { Star, ShoppingCart, Download, BookOpen, Clock, Award } from "lucide-rea
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-
 export default async function Book({ params }: { params: { id: string } }) {
   const { id } = params;
 
