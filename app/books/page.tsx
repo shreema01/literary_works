@@ -9,6 +9,7 @@ export default function Books() {
   const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  
   const LARAVEL_API_URL = process.env.NEXT_PUBLIC_LARAVEL_API_URL;
 
   // const LARAVEL_API_URL = "http://my_backend.test/api/books";
