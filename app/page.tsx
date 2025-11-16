@@ -1,103 +1,148 @@
-import Image from "next/image";
+"use client";
+
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
+import { EbookCard } from "@/components/ebook-card";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [featuredBooks, setFeaturedBooks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  // const LARAVEL_API_URL = "http://my_backend.test/api/books";
+  
+  const LARAVEL_API_URL = process.env.NEXT_PUBLIC_LARAVEL_API_URL;
+
+  useEffect(() => {
+    async function fetchFeaturedBooks() {
+      try {
+        const res = await fetch(LARAVEL_API_URL, { cache: "no-store" });
+        const data = await res.json();
+
+        // Laravel
+        if (Array.isArray(data)) {
+          setFeaturedBooks(data);
+        } else if (Array.isArray(data.data)) {
+          setFeaturedBooks(data.data);
+        } else {
+          setFeaturedBooks([]);
+        }
+      } catch (error) {
+        console.error("Error loading featured books:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchFeaturedBooks();
+  }, []);
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+
+      {/* Hero Section */}
+      <section className="relative py-20 md:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5" />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
+              Stories That Stay With You
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+              Discover beautifully crafted narratives exploring imagination, emotion, and human experience.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+              <Button asChild size="lg">
+                <Link href="/books">
+                  Explore Collection
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+
+              <Button asChild size="lg" variant="outline" className="bg-transparent">
+                <Link href="/about">Meet the Author</Link>
+              </Button>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* Featured Books Section */}
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-end justify-between mb-12">
+            <div>
+              <h2 className="font-serif text-3xl md:text-4xl font-bold mb-2">Featured Works</h2>
+              <p className="text-muted-foreground">Handpicked stories for discerning readers</p>
+            </div>
+
+            <Button asChild variant="ghost" className="hidden sm:flex">
+              <Link href="/books">
+                View All
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+
+          {/* Loading State */}
+          {isLoading ? (
+            <div className="text-center py-10 text-muted-foreground">Loading featured books...</div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {featuredBooks.slice(0, 4).map((book) => (
+                <EbookCard key={book.id} {...book} />
+              ))}
+            </div>
+          )}
+
+          <div className="mt-8 text-center sm:hidden">
+            <Button asChild variant="ghost">
+              <Link href="/books">
+                View All Books
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Author CTA */}
+      <section className="py-16 md:py-24 bg-muted/30">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6">
+                <h2 className="font-serif text-3xl md:text-4xl font-bold">About the Author</h2>
+                <p className="text-muted-foreground leading-relaxed">
+                  With over a decade of storytelling, each book explores themes that resonate across
+                  cultures and generations.
+                </p>
+                <Button asChild>
+                  <Link href="/about">
+                    Learn More
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+
+              <div className="aspect-square rounded-lg overflow-hidden bg-muted">
+                <img
+                  src="/author-portrait-professional.jpg"
+                  alt="Author"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 }
