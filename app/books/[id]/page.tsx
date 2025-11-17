@@ -54,7 +54,8 @@ export default async function Book({ params }: { params: { id: string } }) {
               </div>
             </div>
 
-            {/* Book Info */}
+           
+           {/* Book Info */}
             <div className="space-y-6">
               <div>
                 <Badge variant="secondary" className="mb-3">
@@ -77,7 +78,8 @@ export default async function Book({ params }: { params: { id: string } }) {
                       />
                     ))}
                   </div>
-                  <span className="font-semibold">{book.rating}</span>
+                  <span className="font-semibold">{book.rating}
+                  </span>
                 </div>
 
                 <p className="text-lg text-muted-foreground leading-relaxed">
