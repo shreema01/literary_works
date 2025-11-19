@@ -28,6 +28,7 @@ export default async function Book({ params }: { params: { id: string } }) {
       book = data;
     }
   } catch (error) {
+    
     console.error("Error fetching book:", error);
   }
 
