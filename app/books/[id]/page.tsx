@@ -148,6 +148,7 @@ export default async function Book({ params }: { params: { id: string } }) {
           </div>
 
           {/* Features if exist */}
+          
           {book.features && book.features.length > 0 && (
             <section className="mb-16">
               <h2 className="font-serif text-3xl font-bold mb-6">What Readers Love</h2>
@@ -162,7 +163,7 @@ export default async function Book({ params }: { params: { id: string } }) {
               </div>
             </section>
           )}
-          
+
         </div>
       </main>
 
