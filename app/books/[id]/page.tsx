@@ -162,6 +162,7 @@ export default async function Book({ params }: { params: { id: string } }) {
               </div>
             </section>
           )}
+          
         </div>
       </main>
 
