@@ -51,7 +51,6 @@ const AboutPage = async () => {
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-
               {/* TEXT AREA */}
               <div className="order-2 lg:order-1 space-y-6">
                 <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold">
@@ -74,16 +73,21 @@ const AboutPage = async () => {
               </div>
 
               {/* IMAGE */}
+
               <div className="order-1 lg:order-2">
                 <div className="aspect-square rounded-lg overflow-hidden bg-muted shadow-2xl">
                   <img
-                    src={author.cover_image}
-                    alt="Author portrait"
+                    src={
+                      author.cover_image
+                        ? `${process.env.NEXT_PUBLIC_LARAVEL_HOST}/${author.cover_image}`
+                        : "/placeholder.svg"
+                    }
+                    alt={author.title || "Author portrait"}
                     className="h-full w-full object-cover"
                   />
                 </div>
               </div>
-
+              
             </div>
           </div>
         </section>
@@ -91,7 +95,9 @@ const AboutPage = async () => {
         {/* STORY SECTION */}
         <section className="py-16 md:py-24 bg-muted/20">
           <div className="container mx-auto max-w-4xl px-4 space-y-6">
-            <h2 className="font-serif text-3xl md:text-4xl font-bold">My Story</h2>
+            <h2 className="font-serif text-3xl md:text-4xl font-bold">
+              My Story
+            </h2>
 
             <p className="leading-relaxed text-lg text-muted-foreground whitespace-pre-line">
               {author.story}
@@ -102,7 +108,9 @@ const AboutPage = async () => {
         {/* Writing Philosophy */}
         <section className="py-16 md:py-24">
           <div className="container mx-auto max-w-4xl px-4 space-y-6">
-            <h2 className="font-serif text-3xl md:text-4xl font-bold">Writing Philosophy</h2>
+            <h2 className="font-serif text-3xl md:text-4xl font-bold">
+              Writing Philosophy
+            </h2>
 
             <ul className="list-disc pl-6 space-y-2 text-lg text-muted-foreground">
               {author.writing_philosophy?.map((p, i) => (
@@ -136,7 +144,6 @@ const AboutPage = async () => {
               </h2>
 
               <div className="flex flex-wrap justify-center gap-4 pt-4">
-
                 <Button asChild variant="default" size="lg">
                   <a href="mailto:info@example.com">
                     <Mail className="mr-2 h-5 w-5 inline-block" />
@@ -170,12 +177,10 @@ const AboutPage = async () => {
                     </a>
                   </Button>
                 )}
-
               </div>
             </div>
           </div>
         </section>
-
       </main>
 
       <Footer />

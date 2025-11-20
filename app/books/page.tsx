@@ -19,7 +19,7 @@ export default function Books() {
         const res = await fetch(LARAVEL_API_URL, { cache: "no-store" });
         const data = await res.json();
 
-        // Laravel returns 
+        // Laravel returns
         if (Array.isArray(data)) {
           setBooks(data);
         } else if (Array.isArray(data.data)) {
@@ -61,7 +61,11 @@ export default function Books() {
               price={book.price}
               rating={book.rating}
               genre={book.genre}
-              coverImage={book.coverImage}
+              coverImage={
+                book.cover_image
+                  ? `${process.env.NEXT_PUBLIC_LARAVEL_HOST}/${book.cover_image}`
+                  : "/placeholder.svg"
+              }
             />
           ))}
         </div>

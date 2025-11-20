@@ -13,7 +13,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
   // const LARAVEL_API_URL = "http://my_backend.test/api/books";
-  
+
   const LARAVEL_API_URL = process.env.NEXT_PUBLIC_LARAVEL_API_URL;
 
   useEffect(() => {
@@ -22,14 +22,27 @@ export default function Home() {
         const res = await fetch(LARAVEL_API_URL, { cache: "no-store" });
         const data = await res.json();
 
-        // Laravel
-        if (Array.isArray(data)) {
-          setFeaturedBooks(data);
-        } else if (Array.isArray(data.data)) {
-          setFeaturedBooks(data.data);
-        } else {
-          setFeaturedBooks([]);
+        let books = [];
+
+        if (Array.isArray(data.data)) {
+          books = data.data;
+        } else if (Array.isArray(data)) {
+          books = data;
         }
+
+        const mappedBooks = books.map((book: any) => ({
+          id: book.id,
+          title: book.title,
+          description: book.description,
+          price: book.price,
+          rating: book.rating,
+          genre: book.genre,
+          coverImage: book.cover_image
+            ? `${process.env.NEXT_PUBLIC_LARAVEL_HOST}/${book.cover_image}`
+            : "/placeholder.svg",
+        }));
+
+        setFeaturedBooks(mappedBooks);
       } catch (error) {
         console.error("Error loading featured books:", error);
       } finally {
@@ -53,7 +66,8 @@ export default function Home() {
               Stories That Stay With You
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-              Discover beautifully crafted narratives exploring imagination, emotion, and human experience.
+              Discover beautifully crafted narratives exploring imagination,
+              emotion, and human experience.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
@@ -64,7 +78,12 @@ export default function Home() {
                 </Link>
               </Button>
 
-              <Button asChild size="lg" variant="outline" className="bg-transparent">
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="bg-transparent"
+              >
                 <Link href="/about">Meet the Author</Link>
               </Button>
             </div>
@@ -77,8 +96,12 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between mb-12">
             <div>
-              <h2 className="font-serif text-3xl md:text-4xl font-bold mb-2">Featured Works</h2>
-              <p className="text-muted-foreground">Handpicked stories for discerning readers</p>
+              <h2 className="font-serif text-3xl md:text-4xl font-bold mb-2">
+                Featured Works
+              </h2>
+              <p className="text-muted-foreground">
+                Handpicked stories for discerning readers
+              </p>
             </div>
 
             <Button asChild variant="ghost" className="hidden sm:flex">
@@ -91,7 +114,9 @@ export default function Home() {
 
           {/* Loading State */}
           {isLoading ? (
-            <div className="text-center py-10 text-muted-foreground">Loading featured books...</div>
+            <div className="text-center py-10 text-muted-foreground">
+              Loading featured books...
+            </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {featuredBooks.slice(0, 4).map((book) => (
@@ -111,37 +136,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Author CTA */}
-      <section className="py-16 md:py-24 bg-muted/30">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
-                <h2 className="font-serif text-3xl md:text-4xl font-bold">About the Author</h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  With over a decade of storytelling, each book explores themes that resonate across
-                  cultures and generations.
-                </p>
-                <Button asChild>
-                  <Link href="/about">
-                    Learn More
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              </div>
-
-              <div className="aspect-square rounded-lg overflow-hidden bg-muted">
-                <img
-                  src="/author-portrait-professional.jpg"
-                  alt="Author"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
+     
       <Footer />
     </div>
   );

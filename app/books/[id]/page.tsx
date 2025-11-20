@@ -4,7 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Star, ShoppingCart, Download, BookOpen, Clock, Award } from "lucide-react";
+import {
+  Star,
+  ShoppingCart,
+  Download,
+  BookOpen,
+  Clock,
+  Award,
+} from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -28,7 +35,6 @@ export default async function Book({ params }: { params: { id: string } }) {
       book = data;
     }
   } catch (error) {
-    
     console.error("Error fetching book:", error);
   }
 
@@ -48,15 +54,18 @@ export default async function Book({ params }: { params: { id: string } }) {
             <div className="space-y-6">
               <div className="aspect-[3/4] rounded-lg overflow-hidden bg-muted shadow-2xl">
                 <img
-                  src={book.coverImage || "/placeholder.svg"}
+                  src={
+                    book.cover_image
+                      ? `${process.env.NEXT_PUBLIC_LARAVEL_HOST}/${book.cover_image}`
+                      : "/placeholder.svg"
+                  }
                   alt={book.title}
                   className="h-full w-full object-cover"
                 />
               </div>
             </div>
 
-           
-           {/* Book Info */}
+            {/* Book Info */}
             <div className="space-y-6">
               <div>
                 <Badge variant="secondary" className="mb-3">
@@ -79,8 +88,7 @@ export default async function Book({ params }: { params: { id: string } }) {
                       />
                     ))}
                   </div>
-                  <span className="font-semibold">{book.rating}
-                  </span>
+                  <span className="font-semibold">{book.rating}</span>
                 </div>
 
                 <p className="text-lg text-muted-foreground leading-relaxed">
@@ -101,7 +109,9 @@ export default async function Book({ params }: { params: { id: string } }) {
                 <div className="flex items-center gap-2 text-sm">
                   <Clock className="h-4 w-4 text-muted-foreground" />
                   <span className="text-muted-foreground">Published:</span>
-                  <span className="font-medium">{book.publishDate ?? "N/A"}</span>
+                  <span className="font-medium">
+                    {book.publishDate ?? "N/A"}
+                  </span>
                 </div>
 
                 <div className="flex items-center gap-2 text-sm">
@@ -122,7 +132,9 @@ export default async function Book({ params }: { params: { id: string } }) {
               {/* Price and Purchase */}
               <div className="space-y-4">
                 <div className="flex items-baseline gap-2">
-                  <span className="text-4xl font-serif font-bold">${book.price}</span>
+                  <span className="text-4xl font-serif font-bold">
+                    ${book.price}
+                  </span>
                   <span className="text-muted-foreground">USD</span>
                 </div>
 
@@ -148,10 +160,12 @@ export default async function Book({ params }: { params: { id: string } }) {
           </div>
 
           {/* Features if exist */}
-          
+
           {book.features && book.features.length > 0 && (
             <section className="mb-16">
-              <h2 className="font-serif text-3xl font-bold mb-6">What Readers Love</h2>
+              <h2 className="font-serif text-3xl font-bold mb-6">
+                What Readers Love
+              </h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {book.features.map((feature: string, index: number) => (
                   <Card key={index}>
@@ -163,7 +177,6 @@ export default async function Book({ params }: { params: { id: string } }) {
               </div>
             </section>
           )}
-
         </div>
       </main>
 
@@ -171,4 +184,3 @@ export default async function Book({ params }: { params: { id: string } }) {
     </div>
   );
 }
-
