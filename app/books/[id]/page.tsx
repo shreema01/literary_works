@@ -18,8 +18,6 @@ import { notFound } from "next/navigation";
 export default async function Book({ params }: { params: { id: string } }) {
   const { id } = params;
 
-  // const API_URL = `http://my_backend.test/api/books/${id}`;
-
   const API_URL = `${process.env.NEXT_PUBLIC_LARAVEL_API_URL}/${id}`;
 
   let book = null;

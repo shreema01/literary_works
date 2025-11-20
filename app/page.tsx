@@ -12,8 +12,6 @@ export default function Home() {
   const [featuredBooks, setFeaturedBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // const LARAVEL_API_URL = "http://my_backend.test/api/books";
-
   const LARAVEL_API_URL = process.env.NEXT_PUBLIC_LARAVEL_API_URL;
 
   useEffect(() => {

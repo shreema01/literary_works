@@ -11,8 +11,6 @@ export default function Books() {
 
   const LARAVEL_API_URL = process.env.NEXT_PUBLIC_LARAVEL_API_URL;
 
-  // const LARAVEL_API_URL = "http://my_backend.test/api/books";
-
   useEffect(() => {
     async function fetchBooks() {
       try {
