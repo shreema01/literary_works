@@ -1,5 +1,4 @@
 "use client";
-
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { EbookCard } from "@/components/ebook-card";
@@ -133,9 +132,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-     
-      <Footer />
-    </div>
+    <Footer />
+  </div>
   );
 }

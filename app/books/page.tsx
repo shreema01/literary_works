@@ -1,5 +1,4 @@
 "use client";
-
 import { EbookCard } from "@/components/ebook-card";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
@@ -17,7 +16,6 @@ export default function Books() {
         const res = await fetch(LARAVEL_API_URL, { cache: "no-store" });
         const data = await res.json();
 
-        // Laravel returns
         if (Array.isArray(data)) {
           setBooks(data);
         } else if (Array.isArray(data.data)) {

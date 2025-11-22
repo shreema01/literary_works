@@ -1,10 +1,8 @@
-// app/about/page.tsx
-
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Mail, Instagram, Twitter, Facebook } from "lucide-react";
+import { Mail } from "lucide-react";
 import Link from "next/link";
 
 interface SocialLink {
@@ -38,7 +36,6 @@ const AboutPage = async () => {
     );
   }
 
-  // safe access
   const facebook = author.social_links?.[0]?.value ?? "";
   const instagram = author.social_links?.[1]?.value ?? "";
   const twitter = author.social_links?.[2]?.value ?? "";
