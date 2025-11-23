@@ -11,6 +11,7 @@ export default function Books() {
   const LARAVEL_API_URL = process.env.NEXT_PUBLIC_LARAVEL_API_URL;
 
   useEffect(() => {
+    
     async function fetchBooks() {
       try {
         const res = await fetch(LARAVEL_API_URL, { cache: "no-store" });
